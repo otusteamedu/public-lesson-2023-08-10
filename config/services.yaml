@@ -29,8 +29,11 @@ services:
 
 when@test:
     services:
-        App\Service\Chain\Processor\FinalPlainProcessor:
+        App\Service\Chain\Processor\SimpleProcessorInterface: '@TestSimpleProcessor'
+
+        TestSimpleProcessor:
+            class: App\Service\Chain\Processor\SimpleProcessor
             factory: ['Codeception\Stub', 'make']
             arguments:
-                - App\Service\Chain\Processor\FinalPlainProcessor
-                - { process: 'test final plain processor' }
+                - App\Service\Chain\Processor\SimpleProcessor
+                - { process: 'test simple processor' }

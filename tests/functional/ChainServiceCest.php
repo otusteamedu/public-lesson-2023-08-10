@@ -15,9 +15,7 @@ class ChainServiceCest
     {
         $chainService = $I->grabService(ChainService::class);
 
-        $expectedMessage = 'test simple plain processor'.
-            ' -> final plain processor'.
-            ' -> simple processor'.
+        $expectedMessage = 'test simple processor'.
             ' -> final processor'.
             ' -> Finish';
 
