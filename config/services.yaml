@@ -29,11 +29,6 @@ services:
 
 when@test:
     services:
-        App\Tests\Mock\FinalProcessorProxy:
-            decorates: App\Service\Chain\Processor\FinalProcessor
-            arguments:
-                - '@.inner'
-
         App\Repository\TaskRepository:
             public: true
             autowire: true

@@ -16,3 +16,4 @@ modules:
             cleanup: false
         - \App\Tests\Helper\Functional
         - Asserts
+        - \App\Tests\Helper\MockService
