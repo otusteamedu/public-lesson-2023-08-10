@@ -1,0 +1,13 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+task:
+    path: /task
+    controller: App\Controller\TaskController::addTask
+
+chain:
+    path: /chain
+    controller: App\Controller\ChainController::callChain
