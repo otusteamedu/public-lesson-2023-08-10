@@ -30,9 +30,8 @@ class TaskServiceCest
 
         $I->canSeeInRepository(Task::class, ['name' => self::FIXED_TEST_TASK_NAME]);
 
-        // cleanup
-        $task2 = $I->grabEntityFromRepository(Task::class, ['name' => self::FIXED_TEST_TASK_NAME]);
-        $entityManager->remove($task2);
-        $I->flushToDatabase();
+        $I->wantCleanupEntities(
+            [$I->grabEntityFromRepository(Task::class, ['name' => self::FIXED_TEST_TASK_NAME])]
+        );
     }
 }
