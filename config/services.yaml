@@ -26,3 +26,11 @@ services:
     App\Doctrine\MigrationEventSubscriber:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
+
+when@test:
+    services:
+        App\Service\Chain\Processor\SimplePlainProcessor:
+            factory: ['Codeception\Stub', 'make']
+            arguments:
+                - App\Service\Chain\Processor\SimplePlainProcessor
+                - { process: 'test simple plain processor' }
