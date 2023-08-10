@@ -29,8 +29,8 @@ services:
 
 when@test:
     services:
-        App\Service\Chain\Processor\SimplePlainProcessor:
+        App\Service\Chain\Processor\FinalPlainProcessor:
             factory: ['Codeception\Stub', 'make']
             arguments:
-                - App\Service\Chain\Processor\SimplePlainProcessor
-                - { process: 'test simple plain processor' }
+                - App\Service\Chain\Processor\FinalPlainProcessor
+                - { process: 'test final plain processor' }
