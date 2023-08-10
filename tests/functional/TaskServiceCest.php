@@ -5,6 +5,7 @@ namespace App\Tests\functional;
 use App\Entity\Task;
 use App\Service\TaskService;
 use App\Tests\FunctionalTester;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 
 class TaskServiceCest
@@ -23,5 +24,14 @@ class TaskServiceCest
         $taskService->addTask(self::TEST_TASK_NAME);
 
         $I->canSeeInRepository(Task::class, ['name' => self::FIXED_TEST_TASK_NAME]);
+
+        // cleanup
+        $task1 = $I->grabEntityFromRepository(Task::class, ['name' => self::TEST_TASK_NAME]);
+        $task2 = $I->grabEntityFromRepository(Task::class, ['name' => self::FIXED_TEST_TASK_NAME]);
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = $I->grabService('doctrine.orm.entity_manager');
+        $entityManager->remove($task1);
+        $entityManager->remove($task2);
+        $I->flushToDatabase();
     }
 }
