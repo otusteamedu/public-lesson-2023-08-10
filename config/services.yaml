@@ -29,11 +29,7 @@ services:
 
 when@test:
     services:
-        App\Service\Chain\Processor\SimpleProcessorInterface: '@TestSimpleProcessor'
-
-        TestSimpleProcessor:
-            class: App\Service\Chain\Processor\SimpleProcessor
-            factory: ['Codeception\Stub', 'make']
+        App\Tests\Mock\FinalProcessorProxy:
+            decorates: App\Service\Chain\Processor\FinalProcessor
             arguments:
-                - App\Service\Chain\Processor\SimpleProcessor
-                - { process: 'test simple processor' }
+                - '@.inner'

@@ -15,8 +15,7 @@ class ChainServiceCest
     {
         $chainService = $I->grabService(ChainService::class);
 
-        $expectedMessage = 'test simple processor'.
-            ' -> final processor'.
+        $expectedMessage = 'test final processor'.
             ' -> Finish';
 
         $I->assertSame($expectedMessage, $chainService->process());
