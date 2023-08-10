@@ -3,13 +3,16 @@
 namespace App\Service;
 
 use App\Entity\Task;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Throwable;
 
 class TaskService
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager
+        private readonly ManagerRegistry $managerRegistry,
+        private EntityManagerInterface $entityManager
     ) {
     }
 
@@ -36,6 +39,13 @@ class TaskService
             $this->entityManager->getConnection()->commit();
 
             return $task->getId();
+        } catch (UniqueConstraintViolationException) {
+            $this->entityManager->getConnection()->rollBack();
+            $this->entityManager->close();
+            /** @var EntityManagerInterface $entityManager */
+            $entityManager = $this->managerRegistry->resetManager();
+            $this->entityManager = $entityManager;
+            return $this->addTask($name.'_fixed');
         } catch (Throwable) {
             $this->entityManager->getConnection()->rollBack();
         }
