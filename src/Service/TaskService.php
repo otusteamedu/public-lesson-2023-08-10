@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Task;
+use App\Repository\TaskRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -12,7 +13,7 @@ class TaskService
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -24,9 +25,15 @@ class TaskService
         if ($name === null) {
             return null;
         }
-
         try {
             $this->entityManager->getConnection()->beginTransaction();
+
+            /** @var TaskRepository $taskRepository */
+            $taskRepository = $this->entityManager->getRepository(Task::class);
+            $existingTask = $taskRepository->findByName($name);
+            if ($existingTask !== null) {
+                return null;
+            }
 
             $task = new Task();
             $task->setName($name);
@@ -45,6 +52,7 @@ class TaskService
             /** @var EntityManagerInterface $entityManager */
             $entityManager = $this->managerRegistry->resetManager();
             $this->entityManager = $entityManager;
+
             return $this->addTask($name.'_fixed');
         } catch (Throwable) {
             $this->entityManager->getConnection()->rollBack();

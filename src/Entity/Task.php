@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
+use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
 {
     #[ORM\Column(name: 'id', type: 'bigint', unique: true)]

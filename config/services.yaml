@@ -33,3 +33,9 @@ when@test:
             decorates: App\Service\Chain\Processor\FinalProcessor
             arguments:
                 - '@.inner'
+
+        App\Repository\TaskRepository:
+            public: true
+            autowire: true
+            autoconfigure: true
+            class: App\Tests\Mock\TaskRepositoryMock
